@@ -14,7 +14,9 @@ let utils = {
         let platforms = Object.keys(config.get('platforms'))
         for (let platform of platforms) {
             let platformClass = new classes[platform]()
-            platformClass.getChannel(2233154425)
+            platformClass.getPosts(2233154425, 990753753853775872).then(posts => {
+                console.log(posts)
+            })
         }
     }
 }

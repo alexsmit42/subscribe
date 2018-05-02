@@ -28,6 +28,17 @@ class Twitter extends Platform {
             type: 'twitter'
         }
     }
+
+    async getPosts(channelID, lastID) {
+        let posts = []
+        try {
+            posts = await this._client.get('statuses/user_timeline', {user_id: channelID, since_id: lastID, exclude_replies: true, include_rts: false})
+        } catch(err) {
+            return []
+        }
+
+        return posts
+    }
 }
 
 module.exports = Twitter

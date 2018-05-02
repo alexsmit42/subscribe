@@ -17,4 +17,10 @@ describe('Twitter', () => {
         let info = await twitterApi.getChannel('blablablablabla')
         Object.keys(info).length.should.to.equal(0)
     })
+
+    it ('get posts', async() => {
+        let twitterApi = new Twitter()
+        let posts = await twitterApi.getPosts(2233154425, 990753753853775872)
+        posts.length.should.be.above(0)
+    })
 })

@@ -1,17 +1,17 @@
 
 let parser = {
-    parseSubscribe(subscribe) {
+    parseSubscribe(subscribeString) {
         let channel = {
             type: '',
             title: ''
         }
 
-        if (subscribe.indexOf('twitter') !== -1) {
+        if (subscribeString.indexOf('twitter') !== -1) {
             channel.type = 'twitter'
-            channel.title = subscribe.match(/twitter.com\/(\w+)/)[1]
-        } else if (subscribe.indexOf('@') !== -1) {
+            channel.title = subscribeString.match(/twitter.com\/(\w+)/)[1]
+        } else if (subscribeString.indexOf('@') !== -1) {
             channel.type = 'twitter'
-            channel.title = subscribe.substr(1)
+            channel.title = subscribeString.substr(1)
         }
 
         return channel

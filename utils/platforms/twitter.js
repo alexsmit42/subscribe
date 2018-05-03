@@ -18,7 +18,7 @@ class Twitter extends Platform {
         try {
             channel = await this._client.get('users/lookup', {screen_name: channelName})
         } catch (err) {
-            return {}
+            return false
         }
 
         return {

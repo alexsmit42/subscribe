@@ -1,13 +1,12 @@
-
-class Platform {
-
-    constructor() {
-        this._client = this.getClient()
-    }
-
-    addChannel(channelID) {
-        this.getChannel(channelID)
-    }
+const classes = {
+    'twitter': require('./twitter'),
+    'facebook': require('./facebook')
 }
 
-module.exports = Platform
+module.exports = function(type) {
+    if (classes[type] === undefined) {
+        type = 'twitter'
+    }
+
+    return new classes[type]()
+};

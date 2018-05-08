@@ -16,3 +16,9 @@ Follow:
 
 Remove follow:
 - Remove follow for user (redis)
+
+Follow list:
+- Get follow channels (redis)
+- Show channels (bot)
+
+From congif to environment

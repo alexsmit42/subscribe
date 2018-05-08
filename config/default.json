@@ -15,6 +15,9 @@
             "consumer_secret": "hGcMvza98uShkTqZty8j26P04oBYahyBt3chmzNXftnTfzsevI",
             "access_token_key": "37979052-W1zhNsiJEFbX4L9ItUF3p0LZUZO0Dm0mX2a7GWByU",
             "access_token_secret": "298WZjEmvOS7Cf9Vmv1jjgKEQodAreQBBZlvibFl6YAC8"
+        },
+        "facebook": {
+            
         }
     }
 }

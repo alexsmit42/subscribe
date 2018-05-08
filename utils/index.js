@@ -1,13 +1,10 @@
 const config = require('config')
-const Twitter = require('./platforms/twitter')
+const Platform = require('./platforms')
 
 let parser = require('./parser')
 let mongo = require('./mongo')
 let redis = require('./redis')
-
-const classes = {
-    'twitter': Twitter
-}
+let telegram = require('./telegram')
 
 let utils = {
     capitalizeFirstLetter: (string) => {
@@ -17,11 +14,26 @@ let utils = {
     getPlatforms: () => {
         let platforms = Object.keys(config.get('platforms'))
         for (let platform of platforms) {
-            let platformObj = new classes[platform]()
-            platformObj.getPosts(2233154425, 990753753853775872).then(posts => {
-                console.log(posts)
-            })
+            let platformObj = new Platform(platform)
         }
+    },
+
+    async updatePosts() {
+        let channels = await mongo.getChannels()
+
+        channels.forEach(async (channel) => {
+            let platformObj = new Platform(channel.type)
+            let actualChannel = await platformObj.getChannel(channel.channelName)
+            mongo.updateLastID(channel, actualChannel.lastID)
+            
+            let posts = await platformObj.getPosts(channel)
+            let followers = await redis.channelFollowers(channel._id)
+
+            followers.forEach((follower) => {
+                telegram.sendPosts(follower, posts)
+            })
+            // mongo.savePosts(channel, posts)
+        })
     },
 
     async followChannel(subscribeString, userID) {
@@ -32,8 +44,7 @@ let utils = {
             return false
         }
 
-        let platform = subscribeChannel.type
-        let platformObj = new classes[platform]()
+        let platformObj = new Platform(subscribeChannel.type)
 
         if (!platformObj) {
             return false
@@ -47,11 +58,15 @@ let utils = {
         }
 
         // save channel if need
-        let dbChannel = await mongo.getChannel(channel)
-        if (!dbChannel) {
-            mongo.saveChannel(channel)
-                .then(channel => redis.followChannel(channel._id, userID))
+        let newChannel = await mongo.getChannel(channel.channelID, channel.type)
+
+        if (!newChannel) {
+            newChannel = await mongo.saveChannel(channel)
         }
+
+        redis.followChannel(newChannel._id.toString(), userID)
+
+        return newChannel
     }
 }
 

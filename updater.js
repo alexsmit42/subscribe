@@ -17,4 +17,4 @@ let job = new CronJob({
 })
 job.start()
 
-logger.info(`Posts was updated...`)
+// logger.info(`Posts was updated...`)

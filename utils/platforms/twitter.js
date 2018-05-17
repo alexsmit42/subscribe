@@ -37,7 +37,7 @@ class Twitter extends Platform {
     async getPosts(channel) {
         let posts = []
         try {
-            posts = await this._client.get('statuses/user_timeline', {user_id: channel.channelID, since_id: channel.lastID, exclude_replies: true, include_rts: false})
+            posts = await this._client.get('statuses/user_timeline', {user_id: channel.channelID, since_id: channel.lastID})
         } catch(err) {
             return []
         }

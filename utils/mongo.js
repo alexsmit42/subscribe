@@ -4,7 +4,13 @@ let {Channel, Post} = require('../models')
 
 let mongo = {
 
-    getChannels: () => {
+    getChannels: (ids) => {
+        ids = ids || null
+
+        if (ids) {
+            return Channel.find({'_id': {'$in': ids}})
+        }
+
         return Channel.find({})
     },
 

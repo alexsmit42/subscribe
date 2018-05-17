@@ -67,6 +67,17 @@ let utils = {
         redis.followChannel(newChannel._id.toString(), userID)
 
         return newChannel
+    },
+
+    unfollowChannel(channelID, userID) {
+        return redis.unfollowChannel(channelID, userID)
+    },
+
+    async getUserChannels(userID) {
+        let channels = await redis.userFollows(userID)
+        channels = await mongo.getChannels(channels)
+        
+        return channels
     }
 }
 

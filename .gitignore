@@ -1,4 +1,6 @@
 .history
 .vscode
+.idea
 logs
 node_modules
+tasks.todo
